@@ -1,0 +1,18 @@
+{
+    "name": "elia-pc/cpt-manager",
+    "description": "Custom Post Type Manager plugin for WordPress",
+    "type": "project",
+    "license": "GPL v3 or later",
+    "autoload": {
+        "psr-4": {
+            "EliaPc\\CptManager\\": "cpt-includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Yasin Yazdani"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
