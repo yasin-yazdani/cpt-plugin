@@ -34,8 +34,8 @@ class Dashboard extends BaseController{
             'icon_url' => 'dashicons-text-page',
             'position' => 25
         ] , [
-            'page_title' => 'مدیریت دوم',
-            'menu_title' => 'مدیریت دوم',
+            'page_title' => esc_html__('Manager 2' , 'cpt_plugin'),
+            'menu_title' => esc_html__('Manager 2' , 'cpt_plugin'),
             'capability' => 'manage_options',
             'menu_slug' => 'cpt_manager_2',
             'callback' => array($this->CPT_callback , 'cptManagerPage2'),
@@ -43,29 +43,24 @@ class Dashboard extends BaseController{
             'position' => 26
         ]);
 
-        $this->sub_pages = array([
-            'parent_slug' => 'cpt_manager',
-            'page_title' => esc_html__('CPT Manager U1' , 'cpt_plugin'),
-            'menu_title' => esc_html__('CPT Manager U1' , 'cpt_plugin'),
-            'capability' => 'manage_options',
-            'menu_slug' => 'cpt_manager_u1',
-            'callback' => array($this->CPT_callback , 'cptManagerPageU1')
-        ] , [
-            'parent_slug' => 'cpt_manager_2',
-            'page_title' => 'مدیریت دوم اول',
-            'menu_title' => 'مدیریت دوم اول',
-            'capability' => 'manage_options',
-            'menu_slug' => 'cpt_manager_21',
-            'callback' => array($this->CPT_callback , 'cptManagerPage21')
-        ]);
+        $this->sub_pages = array(
+            [
+                'parent_slug' => 'cpt_manager_2',
+                'page_title' => esc_html__('Manager 2-1' , 'cpt_plugin'),
+                'menu_title' => esc_html__('Manager 2-1' , 'cpt_plugin'),
+                'capability' => 'manage_options',
+                'menu_slug' => 'cpt_manager_21',
+                'callback' => array($this->CPT_callback , 'cptManagerPage21')
+            ]
+        );
     }
 
 
     public function setSettings():void{
         $args = array(
-            'option_group' => 'cpt_manager_settings',
-            'option_name' => 'cpt_manager_plugin_settings',
-            'callback' => array($this->CPT_callback , 'cptSanitize')
+                'option_group' => 'cpt_manager_settings',
+                'option_name' => 'cpt_manager_plugin_settings',
+                'callback' => array($this->CPT_callback , 'cptSanitize')
         );
         $this->settings_api->setSettings($args);
     }

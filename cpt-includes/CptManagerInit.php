@@ -4,16 +4,20 @@ namespace EliaPc\CptManager;
 
 use EliaPc\CptManager\Api\Actions;
 use EliaPc\CptManager\Base\AddCustomPostTypes;
+use EliaPc\CptManager\Base\AddCustomTaxonomies;
 use EliaPc\CptManager\Pages\Dashboard;
+use EliaPc\CptManager\Pages\taxDashboard;
 use EliaPc\CptManager\Base\Enqueue;
 
 final class CptManagerInit{
     public static function get_services():array{
         return [
             Dashboard::class,
+            TaxDashboard::class,
             Enqueue::class,
             Actions::class,
-            AddCustomPostTypes::class
+            AddCustomPostTypes::class,
+            //AddCustomTaxonomies::class
         ];
     }
 

@@ -15,16 +15,17 @@ class CPTCallback extends BaseController{
         do_action('get_post_type_settings_admin_form');
     }
 
+    public function taxManagerPage():void{
+        //echo 'tax manager page';
+        do_action('get_taxonomy_settings_admin_form');
+    }
+
     public function cptManagerPage2():void{
-        echo 'صفحه دوم مدیریت';
+        echo 'admin page 2';
     }
 
     public function cptManagerPage21():void{
-        echo 'صفحه دوم اول مدیریت';
-    }
-
-    public function cptManagerPageU1():void{
-        echo 'cpt manager page under 1';
+        echo 'admin page 2-1';
     }
 
     public function inputField(array $args):void{
@@ -56,6 +57,18 @@ class CPTCallback extends BaseController{
         $output = get_option( 'cpt_manager_plugin_settings' );
         $output = ( ! empty( $output ) && is_array( $output ) ) ? $output : array();
         //var_dump($output);die();
+
+        if (isset($_POST['delete_post_type'])){
+            if (isset($_POST['nonce']) && wp_verify_nonce($_POST['nonce'],'delete_post_type_secure')){
+                if( ! defined( 'DOING_AUTOSAVE' ) || ( defined( 'DOING_AUTOSAVE' ) && ! DOING_AUTOSAVE ) ){
+                    if( current_user_can( 'manage_options' ) ){
+                        unset( $output[$_POST['post_type']] );
+                        return $output;
+                    }
+                }
+            }
+        }
+
         if( !empty( $input['post_type'] ) && trim( $input['post_type'] )!=='' ) {
             $output[ $input['post_type'] ] = [
                 'post_type'           => sanitize_text_field( $input['post_type'] ),
@@ -81,6 +94,50 @@ class CPTCallback extends BaseController{
     }
 
     public function cptManagerAdminSection(){
+
+    }
+
+    public function taxSanitize($input){
+        $output = get_option( 'tax_manager_plugin_settings' );
+        $output = ( ! empty( $output ) && is_array( $output ) ) ? $output : array();
+        //var_dump($output);die();
+
+        if (isset($_POST['delete_taxonomy'])){
+            if (isset($_POST['nonce']) && wp_verify_nonce($_POST['nonce'],'delete_taxonomy_secure')){
+                if( ! defined( 'DOING_AUTOSAVE' ) || ( defined( 'DOING_AUTOSAVE' ) && ! DOING_AUTOSAVE ) ){
+                    if( current_user_can( 'manage_options' ) ){
+                        unset( $output[$_POST['taxonomy']] );
+                        return $output;
+                    }
+                }
+            }
+        }
+
+        if( !empty( $input['taxonomy'] ) && trim( $input['taxonomy'] )!=='' ) {
+            $output[ $input['taxonomy'] ] = [
+                'taxonomy'           => sanitize_text_field( $input['taxonomy'] ),
+                'name'                => sanitize_text_field( $input['name'] ),
+                'singular_name'       => sanitize_text_field( $input['singular_name'] ),
+                'menu_name'           => sanitize_text_field( $input['menu_name'] ),
+                'menu_icon'           => sanitize_text_field( $input['menu_icon'] ),
+                'menu_position'       => ( is_numeric( $input['menu_position'] ) ) ? intval( $input['menu_position'] ) : 5 ,
+                'public'              => isset( $input['public'] ),
+                'has_archive'         => isset( $input['has_archive'] ),
+                'show_in_admin_bar'   => isset( $input['show_in_admin_bar'] ),
+                'show_in_nav_menus'   => isset( $input['show_in_nav_menus'] ),
+                'show_in_rest'        => isset( $input['show_in_rest'] ),
+                'hierarchical'        => isset( $input['hierarchical'] ),
+                'show_ui'             => isset( $input['show_ui'] ),
+                'show_in_menu'        => isset( $input['show_in_menu'] ),
+                'can_export'          => isset( $input['can_export'] ),
+                'exclude_from_search' => isset( $input['exclude_from_search'] ),
+                'publicly_queryable'  => isset( $input['publicly_queryable'] )
+            ];
+        }
+        return $output;
+    }
+
+    public function taxManagerAdminSection(){
 
     }
 }
